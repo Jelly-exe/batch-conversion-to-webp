@@ -19,6 +19,12 @@
 import os  # For OS level commands
 import pathlib
 import subprocess
+import time
+
+
+def remove_image(file: pathlib.Path):
+    if pathlib.WindowsPath(f'{file.parent}\\{file.stem}.webp').exists():
+        os.remove(f'{file.parent}\\{file.stem}.webp')
 
 
 def get_images(working_dir=os.curdir, extensions=('.png', '.jpg', '.jpeg')):
@@ -56,11 +62,16 @@ if if_images_exist() == 'No images':
     input('\nPress any key to exit ')
     exit()
 
-dir_name = r'<path>'  # Path to folder which contains images (recursive)
+dir_name = r'C:\Users\jelly\Documents\Programming\Python\batch-conversion-to-webp\demo'  # Path to folder which contains images (recursive)
 default_extensions = ('.png', '.jpg', '.jpeg')  # Image Extensions
 global_quality = 80  # Image quality
 
 list_of_images = get_images(dir_name, default_extensions)
+
+for image in list_of_images:
+    remove_image(image)
+
+time.sleep(1)
 
 for image in list_of_images:
     result = convert_to_webp(image, global_quality)
